@@ -1,0 +1,107 @@
+version: "1.0.0"
+title: "Hinge Auto-Swiper"
+description: "Drives a real iPhone via mirroir to auto-like Hinge profiles, high-volume with cautious human-like pacing."
+
+settings:
+  temperature: 0.2
+  max_turns: 2000
+
+parameters:
+  - key: mode
+    input_type: string
+    requirement: optional
+    default: "like_only"
+    description: "like_only | like_with_comment | full_access"
+  - key: session_cap
+    input_type: number
+    requirement: optional
+    default: 40
+    description: "Stop after this many profiles."
+  - key: min_delay
+    input_type: number
+    requirement: optional
+    default: 3
+    description: "Min seconds between actions."
+  - key: max_delay
+    input_type: number
+    requirement: optional
+    default: 8
+    description: "Max seconds between actions."
+  - key: warmup
+    input_type: string
+    requirement: optional
+    default: "true"
+    description: "Run the 5-profile taste-calibration warmup first."
+  - key: dealbreakers
+    input_type: string
+    requirement: optional
+    default: "none"
+    description: "Comma-separated hard passes, or 'none'."
+
+extensions:
+  - type: stdio
+    name: mirroir
+    cmd: mirroir-mcp
+    args: []
+    timeout: 600
+    description: "Control a real iPhone through macOS iPhone Mirroring (screenshot, describe_screen, tap, swipe, type)."
+
+instructions: |
+  You control a REAL iPhone through the mirroir tools to auto-like Hinge profiles.
+  Read ~/.mirroir-mcp/skills/hinge-app.md first for exactly how Hinge's UI works.
+
+  HOW TO SEE THE SCREEN (do this every cycle, in order):
+  1. Call describe_screen — it returns on-screen text elements WITH tap coordinates.
+     Use this to locate buttons (the heart/Like, the X/pass, "Send Like") and to read
+     the profile's prompts, name, age, and info. This is your primary sense and works
+     even on small local models.
+  2. If your model supports images, ALSO call screenshot to judge the photos visually.
+     If not, judge from the describe_screen text only.
+
+  MODE = {{ mode }}
+    - like_only          : like or pass only, never type a comment. (default, safest)
+    - like_with_comment  : on a genuinely strong profile, send the like WITH one short,
+                           specific, human comment about something in their profile;
+                           otherwise like plain.
+    - full_access        : like / pass / comment freely.
+
+  WARMUP = {{ warmup }}
+    If "true": for the FIRST 5 profiles, describe each profile in one line to the user
+    and ask "like or pass?". Remember the answers, infer the user's taste as a short
+    rubric, restate it, THEN switch to autonomous mode applying that rubric. If the
+    user says skip, go straight to autonomous.
+
+  GOAL (autonomous): High-volume liking. Like nearly everyone. Only PASS (tap the X) on
+  a hard dealbreaker or a clear mismatch with the warmup rubric. When unsure, LIKE.
+
+  DEALBREAKERS (pass if clearly true): {{ dealbreakers }}
+
+  LOOP (repeat until a stop condition):
+    1. describe_screen (and screenshot if vision-capable). Read/look at the profile.
+    2. Decide LIKE or PASS per the goal, rubric, and dealbreakers.
+    3. PASS  -> tap the X (pass) button.
+       LIKE  -> tap the heart on the first photo, wait ~1s, then tap "Send Like".
+                (like_with_comment / full_access: type one short specific comment in the
+                 comment field BEFORE tapping Send Like, only on strong profiles.)
+    4. Wait a RANDOM human-like delay between {{ min_delay }} and {{ max_delay }} seconds.
+    5. Re-read the screen to confirm a NEW profile loaded. If unchanged, retry the action
+       once, then move on.
+
+  PACING / SAFETY (cautious — do not deviate):
+    - Hard cap: stop after {{ session_cap }} profiles this session.
+    - Every ~10 profiles, take a longer 20–40s break.
+    - Never act faster than ~3s apart.
+
+  STOP IMMEDIATELY and report if you see:
+    - "Out of likes" / daily limit / any paywall or upgrade sheet  -> STOP, never pay.
+    - Roses / Boost upsell  -> close it (X), never purchase.
+    - The {{ session_cap }}-profile cap is reached.
+    - 3 consecutive failed actions (UI not responding).
+    - Any non-Hinge screen, a login screen, or an error.
+
+  Print a running tally every 10 profiles (liked X, passed Y). At the end, summarize the
+  totals and why you stopped. Never touch Settings, payments, or any blocked app.
+
+prompt: |
+  Begin. First confirm mirroir is connected and Hinge is on the main swiping feed
+  (describe_screen). If WARMUP is true, run the 5-profile warmup. Then start the loop.

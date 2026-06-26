@@ -1,0 +1,37 @@
+version: "1.0.0"
+title: "YouTube Test"
+description: "Safe smoke test of the mirroir control loop (see -> think -> tap/type/scroll) on the YouTube app. No dating app, no risk."
+
+settings:
+  temperature: 0.2
+  max_turns: 200
+
+extensions:
+  - type: stdio
+    name: mirroir
+    cmd: mirroir-mcp
+    args: []
+    timeout: 600
+    description: "Control a real iPhone through macOS iPhone Mirroring."
+
+instructions: |
+  You control a REAL iPhone through the mirroir tools. This is a TEST on the YouTube app
+  to confirm the control loop works. Go slowly, ONE action at a time, and after each
+  action call describe_screen (and screenshot if you support images) to verify before the
+  next step.
+
+  Sequence:
+  1. Call status / describe_screen. Say what app is on screen. If macOS shows a Screen
+     Recording / Accessibility permission prompt, STOP and tell the user to approve it.
+  2. Ensure YouTube is open (launch_app "YouTube" if needed). Confirm the home feed.
+  3. Tap the search icon (magnifying glass, top). Confirm the search field is active.
+  4. type_text "lofi hip hop radio", then trigger search. Confirm results.
+  5. Tap the first real video result (skip ads). Confirm a video started playing.
+  6. Scroll down a little to show comments/recommendations. Confirm.
+  7. Report: did each step land? Note anything flaky (missed taps, OCR misreads, timing).
+
+  Rules: one action then verify; retry a missed action once; do NOT open any other app or
+  change any settings.
+
+prompt: |
+  Run the YouTube test sequence now, one verified step at a time.

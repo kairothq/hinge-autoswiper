@@ -1,0 +1,28 @@
+{
+  "allow": [
+    "launch_app",
+    "tap",
+    "swipe",
+    "scroll_to",
+    "press_back",
+    "press_home",
+    "type_text"
+  ],
+  "deny": [
+    "set_network",
+    "reset_app",
+    "spotlight",
+    "open_url"
+  ],
+  "blockedApps": [
+    "Wallet",
+    "Messages",
+    "Mail",
+    "Photos",
+    "Settings",
+    "Phone",
+    "Authenticator",
+    "Banking",
+    "Bank"
+  ]
+}
