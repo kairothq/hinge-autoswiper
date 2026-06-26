@@ -1,6 +1,6 @@
 ---
 version: 1
-name: Hinge — Dismiss Obstacles
+name: Hinge, Dismiss Obstacles
 app: Hinge
 tags: ["hinge", "dating", "obstacles"]
 ---

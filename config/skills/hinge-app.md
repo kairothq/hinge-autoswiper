@@ -45,4 +45,4 @@ location, job, etc.). You scroll down through a profile, then act on it.
 Coordinates are in WINDOW POINTS (~322x718), NOT screenshot pixels (the image is ~2x).
 Always take tap points from describe_screen (it returns exact points). For icons not in
 OCR (heart/X/search), estimate from the screenshot by dividing pixel coords by ~2.
-The Like heart and pass X are icons — locate them relative to nearby OCR text.
+The Like heart and pass X are icons, locate them relative to nearby OCR text.

@@ -1,6 +1,6 @@
 ---
 version: 1
-name: Hinge — Pass Current Profile
+name: Hinge, Pass Current Profile
 app: Hinge
 tags: ["hinge", "dating", "pass"]
 ---

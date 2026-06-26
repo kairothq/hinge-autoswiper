@@ -1,12 +1,12 @@
 ---
 version: 1
-name: Hinge — Like Current Profile
+name: Hinge, Like Current Profile
 app: Hinge
 tags: ["hinge", "dating", "like"]
 ---
 
 Like the profile currently on screen. Default = no comment (fastest, safest).
-The heart is an ICON in the lower-right of a photo/prompt card — it has no OCR text,
+The heart is an ICON in the lower-right of a photo/prompt card, it has no OCR text,
 so its tap point comes from exploration/compilation or from the APP.md hint, not a label.
 
 ## Steps

@@ -9,12 +9,12 @@ passwords, it controls your actual phone through macOS iPhone Mirroring.
   (the brain)   <----->   sees screen, decides   <--->  taps/swipes/types  -->  (mirrored)
 ```
 
-- **Brain:** any LLM via [Goose](https://block.github.io/goose/) — local `ollama` (Gemma) or cloud (`openai`/`anthropic`/`google`).
+- **Brain:** any LLM via [Goose](https://block.github.io/goose/), local `ollama` (Gemma) or cloud (`openai`/`anthropic`/`google`).
 - **Hands & eyes:** [mirroir-mcp](https://github.com/jfarcand/iphone-mirroir-mcp) captures the mirrored screen (OCR + vision) and sends real taps.
 - **Logic:** a shareable Goose **recipe** with modes, warmup taste-calibration, and cautious pacing.
 
 ## Requirements
-- macOS **15+** (Sequoia) — iPhone Mirroring is macOS-only.
+- macOS **15+** (Sequoia), iPhone Mirroring is macOS-only.
 - An iPhone that supports iPhone Mirroring, signed into the same Apple ID.
 - Homebrew + Node.js.
 - For local Gemma: RAM matters. **8GB → `gemma3:4b`** (slow but works), **16GB → `gemma3:12b`**, **32GB+ → `gemma3:27b`**. Bigger = better judgment and more reliable tool-calling.
@@ -61,7 +61,7 @@ The installer sets up mirroir, Goose, and your chosen brain (pulls the Ollama mo
 - This is a hobby/research tool. Use responsibly and at your own risk.
 
 ## How it's built
-- `recipes/hinge.yaml` — the agent's instructions, parameters, and the mirroir extension.
-- `recipes/youtube-test.yaml` — the safe smoke test.
-- `config/` — mirroir permissions + the Hinge UI guide installed to `~/.mirroir-mcp/`.
-- `install.sh` / `run.sh` — setup and launch.
+- `recipes/hinge.yaml`, the agent's instructions, parameters, and the mirroir extension.
+- `recipes/youtube-test.yaml`, the safe smoke test.
+- `config/`, mirroir permissions + the Hinge UI guide installed to `~/.mirroir-mcp/`.
+- `install.sh` / `run.sh`, setup and launch.

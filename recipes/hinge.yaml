@@ -51,7 +51,7 @@ instructions: |
   Read ~/.mirroir-mcp/skills/hinge-app.md first for exactly how Hinge's UI works.
 
   HOW TO SEE THE SCREEN (do this every cycle, in order):
-  1. Call describe_screen — it returns on-screen text elements WITH tap coordinates.
+  1. Call describe_screen, it returns on-screen text elements WITH tap coordinates.
      Use this to locate buttons (the heart/Like, the X/pass, "Send Like") and to read
      the profile's prompts, name, age, and info. This is your primary sense and works
      even on small local models.
@@ -87,7 +87,7 @@ instructions: |
     5. Re-read the screen to confirm a NEW profile loaded. If unchanged, retry the action
        once, then move on.
 
-  PACING / SAFETY (cautious — do not deviate):
+  PACING / SAFETY (cautious, do not deviate):
     - Hard cap: stop after {{ session_cap }} profiles this session.
     - Every ~10 profiles, take a longer 20–40s break.
     - Never act faster than ~3s apart.
