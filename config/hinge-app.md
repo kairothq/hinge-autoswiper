@@ -40,3 +40,9 @@ location, job, etc.). You scroll down through a profile, then act on it.
 - After Send Like or X, wait ~1s for the next profile to render before reading.
 - If the screen looks identical after an action, the action may have missed;
   re-read the screen and retry once.
+
+## Tap coordinates (IMPORTANT)
+Coordinates are in WINDOW POINTS (~322x718), NOT screenshot pixels (the image is ~2x).
+Always take tap points from describe_screen (it returns exact points). For icons not in
+OCR (heart/X/search), estimate from the screenshot by dividing pixel coords by ~2.
+The Like heart and pass X are icons — locate them relative to nearby OCR text.
