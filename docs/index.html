@@ -4,102 +4,112 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Auto-Swiper · an AI that swipes for you</title>
-<meta name="description" content="A small project that shows how an AI can look at dating profiles on your real iPhone and like the good ones. Educational demo, not for profit." />
+<meta name="description" content="An educational demo: an AI reads dating profiles on your real iPhone and likes the good ones. Not for profit." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
 <style>
   :root{
     --ink:#1A1A1A; --paper:#FFFEFD; --stone:#5a5552;
     --aubergine:#67295F; --lilac:#75457D; --mauve:#9F81A5; --mist:#C7C7E5;
-    --coral:#D45847; --forest:#025656; --pebble:#EEE1DB; --sand:#CCAC9F; --line:#e7ddd8;
+    --coral:#D45847; --forest:#025656; --pebble:#EEE1DB; --sand:#CCAC9F; --line:#ece3de;
     --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif; --mono:"JetBrains Mono",monospace;
     --spring:cubic-bezier(.34,1.56,.64,1);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+  body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
   a{color:inherit}
-  h1,h2{font-family:var(--serif);font-weight:600;line-height:1.05;letter-spacing:-.015em}
-  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--aubergine)}
+  h1,h2{font-family:var(--serif);font-weight:600;line-height:1.04;letter-spacing:-.015em}
+  .eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--aubergine)}
 
-  /* buttons (beUI-style spring press) */
-  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13px;letter-spacing:.04em;
-       text-transform:uppercase;padding:13px 22px;border-radius:999px;text-decoration:none;border:1px solid var(--ink);
-       transition:transform .25s var(--spring), background .15s, color .15s, box-shadow .25s}
-  .btn:hover{transform:translateY(-2px)}
-  .btn:active{transform:translateY(0) scale(.97)}
-  .btn-dark{background:var(--ink);color:var(--paper);box-shadow:0 6px 18px rgba(26,26,26,.18)}
-  .btn-ghost{background:transparent;color:var(--ink)}.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+  /* beUI-style spring buttons with sliding arrow */
+  .btn{position:relative;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13px;
+       letter-spacing:.03em;text-transform:uppercase;padding:13px 22px;border-radius:999px;text-decoration:none;
+       border:1px solid var(--ink);transition:transform .3s var(--spring),background .15s,color .15s,box-shadow .3s}
+  .btn .arw{transition:transform .3s var(--spring)}
+  .btn:hover{transform:translateY(-2px)} .btn:hover .arw{transform:translateX(4px)}
+  .btn:active{transform:translateY(0) scale(.96)}
+  .btn-dark{background:var(--ink);color:var(--paper);box-shadow:0 8px 22px -8px rgba(26,26,26,.5)}
+  .btn-ghost{background:transparent;color:var(--ink)} .btn-ghost:hover{background:var(--ink);color:var(--paper)}
 
   /* nav */
-  nav{position:sticky;top:0;z-index:50;background:rgba(255,254,253,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
-  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:600;font-size:19px}
-  .dot{width:12px;height:12px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 4px rgba(212,88,71,.16)}
-  .navlinks{display:flex;gap:26px;font-size:14px;font-weight:500}
-  .navlinks a{text-decoration:none;color:var(--stone)}.navlinks a:hover{color:var(--ink)}
-  @media(max-width:680px){.navlinks{display:none}}
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,254,253,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .brand{display:flex;align-items:center;gap:9px;font-family:var(--serif);font-weight:600;font-size:18px}
+  .dot{width:11px;height:11px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 4px rgba(212,88,71,.16)}
+  .ghbtn{font-size:12.5px}
 
-  /* hero */
-  .hero{padding:64px 0 40px}
-  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:28px}}
-  .hero h1{font-size:clamp(38px,6.2vw,60px);max-width:11ch}
+  /* hero with drifting aurora */
+  .hero{position:relative;padding:58px 0 30px;overflow:hidden}
+  .aurora{position:absolute;inset:-30% -10% auto -10%;height:560px;z-index:-1;filter:blur(70px);opacity:.55}
+  .aurora i{position:absolute;border-radius:50%;display:block}
+  .aurora .x1{width:340px;height:340px;background:var(--mist);left:8%;top:0;animation:drift1 14s ease-in-out infinite}
+  .aurora .x2{width:300px;height:300px;background:var(--pebble);right:6%;top:10%;animation:drift2 16s ease-in-out infinite}
+  .aurora .x3{width:240px;height:240px;background:rgba(159,129,165,.6);left:38%;top:24%;animation:drift1 18s ease-in-out infinite reverse}
+  @keyframes drift1{50%{transform:translate(26px,18px) scale(1.08)}}
+  @keyframes drift2{50%{transform:translate(-22px,24px) scale(1.05)}}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center}
+  @media(max-width:840px){.hero-grid{grid-template-columns:1fr;gap:24px}}
+  .hero h1{font-size:clamp(38px,6.4vw,62px);max-width:11ch}
   .hero h1 em{font-style:italic;color:var(--aubergine)}
-  .lede{font-size:clamp(16px,2vw,19px);color:var(--stone);margin-top:18px;max-width:42ch}
-  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+  .lede{font-size:clamp(15px,1.9vw,18px);color:var(--stone);margin-top:14px;max-width:34ch}
+  .cta{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px}
   .gifcard{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff;
-           box-shadow:0 20px 50px -20px rgba(103,41,95,.28)}
+           box-shadow:0 26px 60px -26px rgba(103,41,95,.4);animation:float 6s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-9px)}}
   .gifcard img{display:block;width:100%;height:auto}
-
-  /* iOS-style pill (beUI dynamic-island vibe) */
-  .island{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);
-          font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:999px;margin-bottom:20px}
-  .island .live{width:7px;height:7px;border-radius:50%;background:#5ad19a;box-shadow:0 0 0 0 rgba(90,209,154,.6);animation:pulse 1.8s infinite}
+  .island{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--paper);
+          font-size:12px;font-weight:600;padding:6px 13px;border-radius:999px;margin-bottom:18px}
+  .island .live{width:7px;height:7px;border-radius:50%;background:#5ad19a;animation:pulse 1.8s infinite}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(90,209,154,.55)}70%{box-shadow:0 0 0 7px rgba(90,209,154,0)}100%{box-shadow:0 0 0 0 rgba(90,209,154,0)}}
 
+  /* tech marquee */
+  .marq{margin-top:30px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 0;
+        -webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+  .marq .track{display:flex;gap:42px;width:max-content;animation:scroll 22s linear infinite;font-family:var(--mono);
+               font-size:12.5px;color:var(--stone);letter-spacing:.04em}
+  .marq .track span{display:inline-flex;align-items:center;gap:42px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
   /* sections */
-  section{padding:54px 0;border-top:1px solid var(--line)}
-  .h2{font-size:clamp(26px,3.6vw,36px)}
-  .sub{color:var(--stone);font-size:16px;margin-top:10px;max-width:54ch}
-
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
-  @media(max-width:760px){.steps{grid-template-columns:1fr}}
-  .stepcard{border:1px solid var(--line);border-radius:18px;padding:24px;background:#fff;
-            transition:transform .3s var(--spring), box-shadow .3s}
-  .stepcard:hover{transform:translateY(-4px);box-shadow:0 16px 34px -18px rgba(26,26,26,.25)}
-  .stepcard .ic{font-size:24px}
-  .stepcard h3{font-family:var(--serif);font-size:20px;font-weight:600;margin:12px 0 6px}
-  .stepcard p{font-size:15px;color:var(--stone)}
-
-  .safe{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
-  @media(max-width:760px){.safe{grid-template-columns:1fr}}
-  .safe div{font-size:15px;color:var(--stone)}
-  .safe strong{display:block;font-family:var(--sans);color:var(--ink);font-weight:700;font-size:15.5px;margin-bottom:4px}
+  section{padding:50px 0;border-top:1px solid var(--line)}
+  .h2{font-size:clamp(26px,3.6vw,38px)}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+  @media(max-width:760px){.grid3{grid-template-columns:1fr}}
+  .card{position:relative;border:1px solid var(--line);border-radius:18px;padding:22px;background:#fff;overflow:hidden;
+        transition:transform .35s var(--spring),box-shadow .35s}
+  .card::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--coral);
+                transform:scaleX(0);transform-origin:left;transition:transform .35s var(--spring)}
+  .card:hover{transform:translateY(-5px);box-shadow:0 18px 38px -20px rgba(26,26,26,.3)}
+  .card:hover::before{transform:scaleX(1)}
+  .card .ic{font-size:22px}
+  .card h3{font-family:var(--serif);font-size:19px;font-weight:600;margin:10px 0 5px}
+  .card p{font-size:14.5px;color:var(--stone)}
 
   /* docs band */
-  .band{background:var(--ink);color:var(--paper);border:0;border-radius:24px;margin:54px auto;padding:44px;max-width:980px}
-  .band h2{color:var(--paper)} .band .sub{color:#c7c0bb}
-  .band .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+  .band{position:relative;background:var(--ink);color:var(--paper);border-radius:24px;margin:50px auto;padding:38px;max-width:960px;overflow:hidden}
+  .band .glow{position:absolute;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(212,88,71,.5),transparent 70%);right:-40px;top:-60px;filter:blur(20px)}
+  .band h2{color:var(--paper);position:relative}
+  .band p{color:#c4bdb8;font-size:15px;margin-top:8px;position:relative}
+  .band .row{display:flex;gap:11px;flex-wrap:wrap;margin-top:22px;position:relative}
   .btn-paper{background:var(--paper);color:var(--ink);border-color:var(--paper)}
-  .btn-line{background:transparent;color:var(--paper);border-color:#4a4a4a}.btn-line:hover{background:#262626}
-  .agentnote{margin-top:18px;font-size:13px;color:#9a938e}
+  .btn-line{background:transparent;color:var(--paper);border-color:#454545}.btn-line:hover{background:#272727}
+  .agentnote{margin-top:16px;font-size:12.5px;color:#928b86;position:relative}
   .agentnote code{font-family:var(--mono);color:var(--sand)}
 
-  /* disclaimer */
-  .disc{border:1px solid var(--line);border-left:4px solid var(--coral);border-radius:0 16px 16px 0;
-        background:rgba(212,88,71,.05);padding:22px 24px;margin-top:14px}
-  .disc h3{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--coral);margin-bottom:6px}
-  .disc p{font-size:14.5px;color:var(--stone)}
+  /* disclaimer inline */
+  .disc{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--stone);
+        border-left:3px solid var(--coral);padding:4px 0 4px 16px;max-width:62ch}
+  .disc b{color:var(--ink);font-weight:700}
 
-  footer{border-top:1px solid var(--line);padding:36px 0;font-size:13px;color:var(--stone)}
-  footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+  footer{border-top:1px solid var(--line);padding:30px 0;font-size:12.5px;color:var(--stone)}
+  footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
 
-  /* scroll reveal */
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s var(--spring)}
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s var(--spring)}
   .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -107,98 +117,90 @@
 <nav>
   <div class="wrap">
     <div class="brand"><span class="dot"></span> Auto&#8209;Swiper</div>
-    <div class="navlinks">
-      <a href="#how">How it works</a>
-      <a href="#safe">Safety</a>
-      <a href="#learn">Learn it</a>
-    </div>
-    <a class="btn btn-dark" href="https://github.com/kairothq/hinge-autoswiper" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn btn-dark ghbtn" href="https://github.com/kairothq/hinge-autoswiper" target="_blank" rel="noopener">GitHub <span class="arw">&#8594;</span></a>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <span class="island"><span class="live"></span> Educational demo</span>
-      <h1>Your AI <em>swipes</em> for you.</h1>
-      <p class="lede">It looks at each dating profile on your real iPhone, decides if it is a good match, and likes the good ones. You just watch it work.</p>
-      <div class="cta">
-        <a class="btn btn-dark" href="#learn">See how it works</a>
-        <a class="btn btn-ghost" href="https://github.com/kairothq/hinge-autoswiper" target="_blank" rel="noopener">Get the code</a>
+  <div class="aurora"><i class="x1"></i><i class="x2"></i><i class="x3"></i></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="island"><span class="live"></span> Educational demo</span>
+        <h1>Your AI <em>swipes</em> for you.</h1>
+        <p class="lede">It reads each profile on your real iPhone and likes the good ones. You just watch.</p>
+        <div class="cta">
+          <a class="btn btn-dark" href="#learn">See how <span class="arw">&#8594;</span></a>
+          <a class="btn btn-ghost" href="https://github.com/kairothq/hinge-autoswiper" target="_blank" rel="noopener">Get the code</a>
+        </div>
+      </div>
+      <div class="gifcard reveal">
+        <img src="loop.gif" alt="An AI reading a dating profile and tapping like" width="720" height="440" />
       </div>
     </div>
-    <div class="gifcard reveal">
-      <img src="loop.gif" alt="An AI reading a dating profile on a phone and tapping like" width="720" height="440" />
+    <div class="marq">
+      <div class="track"><span>mirroir&nbsp;·&nbsp;Goose&nbsp;·&nbsp;Ollama&nbsp;·&nbsp;MCP&nbsp;·&nbsp;macOS&nbsp;·&nbsp;open&nbsp;source&nbsp;·&nbsp;</span><span>mirroir&nbsp;·&nbsp;Goose&nbsp;·&nbsp;Ollama&nbsp;·&nbsp;MCP&nbsp;·&nbsp;macOS&nbsp;·&nbsp;open&nbsp;source&nbsp;·&nbsp;</span></div>
     </div>
   </div>
 </header>
 
-<!-- HOW -->
 <section id="how">
   <div class="wrap">
     <span class="eyebrow reveal">The idea</span>
-    <h2 class="h2 reveal">Three simple steps, on repeat.</h2>
-    <p class="sub reveal">There is no secret hack. The AI does the same thing a person does, just faster.</p>
-    <div class="steps">
-      <div class="stepcard reveal"><div class="ic">👀</div><h3>It sees</h3><p>The app reads the screen of your phone and finds the photos, name, and answers on each profile.</p></div>
-      <div class="stepcard reveal"><div class="ic">🤔</div><h3>It decides</h3><p>It thinks about the profile and chooses to like it or skip it, based on what you tell it you want.</p></div>
-      <div class="stepcard reveal"><div class="ic">👆</div><h3>It taps</h3><p>It taps the like or the skip button on the real phone, waits a moment, then moves to the next one.</p></div>
+    <h2 class="h2 reveal">See. Decide. Tap. Repeat.</h2>
+    <div class="grid3">
+      <div class="card reveal"><div class="ic">👀</div><h3>It sees</h3><p>Reads the profile on your screen.</p></div>
+      <div class="card reveal"><div class="ic">🤔</div><h3>It decides</h3><p>Likes or skips, by your rules.</p></div>
+      <div class="card reveal"><div class="ic">👆</div><h3>It taps</h3><p>Taps the real phone, then moves on.</p></div>
     </div>
   </div>
 </section>
 
-<!-- SAFE -->
 <section id="safe">
   <div class="wrap">
-    <span class="eyebrow reveal">Built to be safe</span>
+    <span class="eyebrow reveal">Safe by design</span>
     <h2 class="h2 reveal">You stay in control.</h2>
-    <div class="safe">
-      <div class="reveal"><strong>One-tap stop</strong>Close the phone window and it stops the very same second. Nothing keeps running.</div>
-      <div class="reveal"><strong>Locked-out apps</strong>It cannot open your bank, wallet, photos, or messages. Those are blocked.</div>
-      <div class="reveal"><strong>No passwords</strong>It uses the phone you are already signed in to. It never sees or saves any password.</div>
+    <div class="grid3">
+      <div class="card reveal"><h3>One-tap stop</h3><p>Close the phone window, it stops at once.</p></div>
+      <div class="card reveal"><h3>Locked-out apps</h3><p>No bank, wallet, photos, or messages.</p></div>
+      <div class="card reveal"><h3>No passwords</h3><p>Uses your signed-in phone. Stores nothing.</p></div>
     </div>
   </div>
 </section>
 
-<!-- LEARN / DOCS -->
 <div class="band reveal" id="learn">
-  <span class="eyebrow" style="color:var(--sand)">Understand it in 2 minutes</span>
-  <h2 class="h2">Read the plain-English guide.</h2>
-  <p class="sub">A short walk-through of the whole idea, written so anyone can follow it. No tech background needed.</p>
+  <span class="glow"></span>
+  <span class="eyebrow" style="color:var(--sand)">Docs</span>
+  <h2 class="h2">Understand it, fast.</h2>
+  <p>A simple explainer, or the full build.</p>
   <div class="row">
-    <a class="btn btn-paper" href="guide.txt" target="_blank" rel="noopener">Read the guide</a>
-    <a class="btn btn-line" id="askgpt" href="#" target="_blank" rel="noopener">Explain it in ChatGPT</a>
+    <a class="btn btn-paper" id="askgpt" href="#" target="_blank" rel="noopener">Explain in ChatGPT <span class="arw">&#8594;</span></a>
+    <a class="btn btn-line" href="llms.txt" target="_blank" rel="noopener">Read the build doc</a>
   </div>
-  <p class="agentnote">For AI agents: the guide is plain text at <code>/guide.txt</code>. Paste that link into any assistant and it can explain the whole process for you.</p>
+  <p class="agentnote">Using an AI coding assistant? Point it at <code>/llms.txt</code>, it has everything to install and run this.</p>
 </div>
 
-<!-- DISCLAIMER -->
 <section style="border-top:0;padding-top:0">
   <div class="wrap">
-    <div class="disc reveal">
-      <h3>Why this exists</h3>
-      <p>This is a small project made only to show what AI agents can do. It is for learning and curiosity, not for making money. Automating a dating app can go against that app's rules (its Terms of Service), so please do not use this to break them. Use it carefully, on your own account, and at your own risk.</p>
-    </div>
+    <p class="disc reveal"><span><b>Why this exists.</b> A demo to show what AI agents can do. Not for profit, and not for breaking any app's rules. Use it on your own account, at your own risk.</span></p>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
     <div class="brand"><span class="dot"></span> Auto&#8209;Swiper</div>
-    <div>Educational open-source demo. Not affiliated with Hinge or any dating app. Trademarks belong to their owners.</div>
+    <div>Educational demo. Not affiliated with Hinge. Trademarks belong to their owners.</div>
   </div>
 </footer>
 
 <script>
-  // ChatGPT deep link with a prompt that points to the guide
   (function(){
     var guide = location.origin + location.pathname.replace(/index\.html$/,'') + 'guide.txt';
-    var q = "Read this guide and explain in simple steps how this AI auto-swiper works and how someone would use it: " + guide;
+    var q = "Read this and explain simply how this AI auto-swiper works: " + guide;
     document.getElementById('askgpt').href = "https://chatgpt.com/?q=" + encodeURIComponent(q);
   })();
-  // scroll reveal
   var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    es.forEach(function(e,i){ if(e.isIntersecting){ setTimeout(function(){e.target.classList.add('in');}, (i%3)*80); io.unobserve(e.target);} });
   }, {threshold:.12});
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 </script>

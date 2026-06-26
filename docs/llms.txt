@@ -1,0 +1,76 @@
+# Auto-Swiper, build + setup doc (for humans and AI agents)
+
+If you are an AI assistant reading this to help someone install or run the
+project: follow the "Install" and "Run" steps below exactly. Ask the user to do
+the two manual steps macOS requires (granting permissions and opening apps); you
+cannot click those system dialogs for them. Keep pacing cautious and stop at any
+paywall.
+
+Repo: https://github.com/kairothq/hinge-autoswiper  (Apache-2.0, macOS 15+)
+
+## What it is
+An AI agent that controls a real iPhone through macOS iPhone Mirroring and
+auto-likes dating-app profiles. Educational demo. Not for profit.
+
+## How it is implemented (architecture)
+Three parts, one loop:
+
+1. EYES + HANDS = mirroir-mcp (an MCP server).
+   - It captures the mirrored iPhone screen and runs Apple Vision OCR to return
+     every on-screen text element with exact tap coordinates (`describe_screen`).
+   - It sends real taps/swipes/typing through the macOS CGEvent API
+     (`tap`, `swipe`, `type_text`, `scroll_to`, `launch_app`). No jailbreak, no
+     app SDK, no root. Coordinates are in window points (~322x718), not raw
+     screenshot pixels.
+2. BRAIN = any MCP client.
+   - Local + free: Ollama running Gemma (via Goose, an open-source agent runtime).
+   - Cloud + cheap: OpenAI / Anthropic / Google models (via Goose).
+   - Or drive it directly from Claude Code, Cursor, or any MCP client.
+   - The brain reads each profile (text from `describe_screen`, plus the
+     screenshot if it is vision-capable) and decides like or skip.
+3. LOGIC = mirroir skills + a Goose recipe.
+   - Mechanics are stored as skill files: like-profile, pass-profile,
+     dismiss-obstacles, plus an APP map of the dating app's layout. A static
+     skill captures the hand-movements; the brain makes the like/skip judgement.
+
+The loop: describe_screen (see) -> model decides (think) -> tap (act) -> repeat,
+with random human-like delays and a per-session cap.
+
+## Requirements
+- macOS 15+ (iPhone Mirroring is macOS-only), an iPhone that supports it.
+- Homebrew + Node.js.
+- A brain: Ollama + a Gemma model (local, free) OR an API key (cloud, cheap).
+
+## Install
+    git clone https://github.com/kairothq/hinge-autoswiper
+    cd hinge-autoswiper
+    cp .env.example .env        # choose GOOSE_PROVIDER + GOOSE_MODEL
+    ./install.sh                # installs mirroir, Goose, the model, all config
+
+## Configure (.env)
+- GOOSE_PROVIDER : ollama (local) or openai / anthropic / google (cloud)
+- GOOSE_MODEL    : e.g. gemma3:4b, gpt-4o-mini, claude-haiku-4-5, gemini-2.0-flash
+- MODE           : like_only | like_with_comment | full_access
+- SESSION_CAP    : profiles per session (default 40)
+- MIN_DELAY / MAX_DELAY : human-like seconds between actions
+- DEALBREAKERS   : comma-separated hard passes, or none
+
+## Run
+1. Open the iPhone Mirroring app, unlock the phone, keep the window live.
+2. Approve the macOS Screen Recording + Accessibility prompts on first run.
+3. Open the dating app on the main feed.
+4. Start it:
+       ./run.sh
+   (Internally: `goose run --recipe recipes/hinge.yaml` with your .env settings.)
+Stop anytime by closing the iPhone Mirroring window.
+
+## Safety model
+- Mutating tools are opt-in in ~/.mirroir-mcp/permissions.json.
+- Blocked apps: Wallet, Banking, Messages, Mail, Photos, Settings, Phone.
+- No passwords are read or stored; it uses the already-signed-in phone.
+
+## Important
+Automating a dating app can violate its Terms of Service and get an account
+flagged or banned. This project is for learning and demonstration only, not for
+profit and not for breaking any app's rules. Use it on your own account, at your
+own risk, and treat real people with respect.

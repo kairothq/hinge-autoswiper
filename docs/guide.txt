@@ -1,87 +1,28 @@
-AUTO-SWIPER: THE PLAIN-ENGLISH GUIDE
-====================================
+AUTO-SWIPER, IN PLAIN ENGLISH
+=============================
 
-This guide explains the whole idea in simple words. Anyone can read it,
-a person or an AI assistant. If you are an AI reading this for someone,
-explain it back to them simply and kindly.
-
-
-WHAT IT IS
+What it is
 ----------
-Auto-Swiper is a small demo project. It lets an AI use a real iPhone and
-swipe on a dating app for you. The AI looks at each profile, decides if it
-is a good match, and likes the good ones. You watch it happen on the screen.
+A small demo that lets an AI swipe on a dating app for you. It uses a real
+iPhone, looks at each profile, and likes the good ones while you watch.
 
-It is built to show what AI "agents" can do. It is for learning and fun,
-not for making money.
+How it works, simply
+--------------------
+1. Your Mac shows your iPhone on screen (a built-in Apple feature).
+2. The AI looks at the screen and reads each profile.
+3. It decides like or skip, based on the rules you give it.
+4. It taps the real phone, waits a moment, and goes to the next one.
 
+That is the whole loop: see, decide, tap, repeat.
 
-HOW IT WORKS (THE SIMPLE VERSION)
----------------------------------
-Think of it like a helper with eyes and hands:
+You stay in control
+-------------------
+Close the phone window and it stops instantly. It cannot open your bank,
+wallet, photos, or messages. It never sees or stores any password.
 
-1. EYES. Your Mac can show your iPhone on its screen (a built-in Apple
-   feature called iPhone Mirroring). The AI takes a picture of that screen
-   and reads what is on it: the photos, the name, the answers.
-
-2. BRAIN. The AI thinks about the profile. Using simple rules you give it
-   (for example, "like almost everyone" or "skip anyone who only wants X"),
-   it decides: like or skip.
-
-3. HANDS. The AI taps the like button or the skip button on the real phone.
-   It waits a few seconds, like a human would, then goes to the next profile.
-
-Then it repeats. That is the whole loop: see, decide, tap.
-
-
-WHAT YOU NEED
+Why it exists
 -------------
-- A Mac running a recent version of macOS.
-- An iPhone that can mirror to the Mac.
-- A free local AI model, or a cheap online one. Your choice.
-
-You do not need to know how to code. The project comes with a simple setup
-script that does the heavy work for you.
-
-
-HOW SOMEONE USES IT (PLAIN STEPS)
----------------------------------
-1. Download the project from GitHub.
-2. Run the one setup command. It installs the helper tools.
-3. Open iPhone Mirroring on the Mac and unlock the phone.
-4. Open the dating app on the phone.
-5. Start the swiper. It begins looking at profiles and liking the good ones.
-6. To stop at any time, just close the phone window. Everything stops at once.
-
-It also goes slowly on purpose, with small random pauses, so it behaves
-more like a real person and not a machine.
-
-
-SAFETY: YOU STAY IN CONTROL
----------------------------
-- ONE-TAP STOP. Close the mirrored phone window and all activity stops
-  instantly. There is no hidden program left running.
-- LOCKED-OUT APPS. The AI is blocked from your bank, wallet, photos, and
-  messages. It can only touch the dating app.
-- NO PASSWORDS. It uses the phone you are already signed in to. It never
-  asks for, sees, or stores any password.
-
-
-THE IMPORTANT PART: WHY THIS EXISTS
------------------------------------
-This project is only a demonstration. It is meant to teach and to show what
-is possible with AI agents. It is NOT meant to make money, and it is NOT
-meant to trick anyone.
-
-Please note: automating a dating app can go against that app's rules, known
-as its Terms of Service. Doing so can get an account flagged or banned. So
-do not use this to break any app's rules. Use it on your own account, for
-learning, and at your own risk.
-
-Be kind, be honest, and treat real people with respect.
-
-
-IN ONE SENTENCE
----------------
-Auto-Swiper is a learning demo where an AI looks at dating profiles on a
-real iPhone and likes the good ones, while you stay fully in control.
+This is only to show what AI agents can do. It is for learning, not for
+making money. Automating a dating app can break that app's rules (its Terms
+of Service), so do not use it for that. Use it on your own account, at your
+own risk, and treat real people with respect.
