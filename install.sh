@@ -33,8 +33,8 @@ if command -v mirroir-mcp >/dev/null; then ok "mirroir-mcp already installed"
 else npm install -g mirroir-mcp@latest >/dev/null 2>&1 && ok "installed mirroir-mcp"; fi
 mkdir -p "$HOME/.mirroir-mcp/skills" "$HOME/.mirroir-mcp/models"
 cp "$HERE/config/permissions.json" "$HOME/.mirroir-mcp/permissions.json"
-cp "$HERE/config/hinge-app.md"     "$HOME/.mirroir-mcp/skills/hinge-app.md"
-ok "wrote permissions.json + Hinge skill"
+cp "$HERE/config/skills/"*.md      "$HOME/.mirroir-mcp/skills/"
+ok "wrote permissions.json + Hinge skills (app map + like/pass/obstacle flows)"
 
 # --- 3. Goose (the agent runtime) -------------------------------------------
 say "Installing Goose (agent runtime)"
