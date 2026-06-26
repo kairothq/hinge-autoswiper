@@ -6,7 +6,7 @@ the two manual steps macOS requires (granting permissions and opening apps); you
 cannot click those system dialogs for them. Keep pacing cautious and stop at any
 paywall.
 
-Repo: https://github.com/kairothq/hinge-autoswiper  (Apache-2.0, macOS 15+)
+Repo: https://github.com/kairothq/hinge-autoswiper  (MIT, macOS 15+)
 
 ## What it is
 An AI agent that controls a real iPhone through macOS iPhone Mirroring and

@@ -65,3 +65,7 @@ The installer sets up mirroir, Goose, and your chosen brain (pulls the Ollama mo
 - `recipes/youtube-test.yaml`, the safe smoke test.
 - `config/`, mirroir permissions + the Hinge UI guide installed to `~/.mirroir-mcp/`.
 - `install.sh` / `run.sh`, setup and launch.
+
+## License
+
+MIT, see [LICENSE](LICENSE). Free to use, copy, and share with credit.
